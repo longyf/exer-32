@@ -6,27 +6,26 @@
 #include <queue>
 using namespace std;
 
-    void PrintFromTopToBottomCore(TreeNode *node, queue<TreeNode *> &temp, vector<int> &result) {
-        if (node == nullptr) return;
+    void PrintFromTopToBottomCore(TreeNode *root, vector<int> &result) {
+        TreeNode *node = root;
+		queue<TreeNode *> temp;
+		while (node != nullptr) {
         
-        result.push_back(node->val);
-        if (node->left != nullptr) temp.push(node->left);
-        if (node->right != nullptr) temp.push(node->right);
-        
-        TreeNode *next; 
-		if (temp.empty()) next = nullptr;//这个地方要小心，空的temp不可再删东西。
-		else {
-			next = temp.front();
-			temp.pop();
+	        result.push_back(node->val);
+	        if (node->left != nullptr) temp.push(node->left);
+	        if (node->right != nullptr) temp.push(node->right);
+         
+			if (temp.empty()) return;
+			else {
+				node = temp.front();
+				temp.pop();
+			}
 		}
-
-        PrintFromTopToBottomCore(next, temp, result);
     }
     
     vector<int> PrintFromTopToBottom(TreeNode* root) {
         vector<int> result;
-        queue<TreeNode *> temp;
-        PrintFromTopToBottomCore(root, temp, result);
+        PrintFromTopToBottomCore(root, result);
         return result;
     }
 
